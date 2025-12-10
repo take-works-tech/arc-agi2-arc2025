@@ -60,6 +60,8 @@
 * `grid_manager` が空間制約・衝突処理・カラー変換を管理。
 * `interpreter` と `tokenizer` は DSL とニューラルモデルを直接接続します。
 
+![プログラムとグリッド生成](docs/images/generate_program_and_grid.png)
+
 ---
 
 ## 拡張データセット生成パイプライン
@@ -68,6 +70,8 @@
 * 難易度・グリッドサイズ・カラー分布などを確率的に制御しつつ、ランダム性を維持。
 * 生成された DataPair（DSL + グリッドペア）は `.jsonl.gz` 形式で保存され、`DataIO` を介して学習時にストリーミング。
 * `scripts/analysis/` 配下のスクリプトにより、データ品質や学習傾向を分析可能。
+
+![生成されたデータセット](docs/images/ganerated_dataset.png)
 
 ---
 
@@ -78,6 +82,8 @@
 * DSL 実行環境が候補を評価し、`SystemIntegrator` がスコアリング。
 * ルールベース補助（オブジェクトマッチングによる部分プログラム生成）により堅牢性を強化。
 * CLI コマンドを通じて、全実験ログや出力を再現可能。
+
+![プログラム生成](docs/images/generate_program.png)
 
 ---
 

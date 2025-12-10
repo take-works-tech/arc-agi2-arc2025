@@ -59,6 +59,8 @@ This project integrates a rule-based DSL runtime with a neural program-synthesis
 * `grid_manager` handles spatial integrity, collisions, and color management.
 * `interpreter` and `tokenizer` directly bridge DSL tokens with the neural synthesis model.
 
+![Program and Grid Generation](docs/images/generate_program_and_grid.png)
+
 ---
 
 ## Extended Dataset Generation Pipeline
@@ -67,6 +69,8 @@ This project integrates a rule-based DSL runtime with a neural program-synthesis
 * Balances randomness and constraints (difficulty, grid size, color distribution) through probabilistic rules.
 * DataPairs (DSL + grid pairs) stored as compressed `.jsonl.gz` files, streamed with `DataIO`.
 * Analysis scripts in `scripts/analysis/` enable data quality and training trend analysis.
+
+![Generated Dataset](docs/images/ganerated_dataset.png)
 
 ---
 
@@ -77,6 +81,8 @@ This project integrates a rule-based DSL runtime with a neural program-synthesis
 * The DSL runtime evaluates each candidate, and `SystemIntegrator` scores outputs.
 * Rule-based assistance (object matching for partial program generation) enhances robustness.
 * All experiment logs and visual outputs are reproducible via CLI commands.
+
+![Program Generation](docs/images/generate_program.png)
 
 ---
 

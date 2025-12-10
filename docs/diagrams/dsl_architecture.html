@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ArcPrize2025 Hybrid Solver Overview</title>
+  <style>
+    @font-face {
+      font-family: 'Noto Sans JP Local';
+      src: url('../fonts/NotoSansJP-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    :root {
+      font-family: 'Noto Sans JP Local', 'Source Han Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+      color: #eaf0ff;
+    }
+
+    body {
+      margin: 0;
+      padding: 74px 44px 94px;
+      background: radial-gradient(circle at 18% 20%, rgba(110, 140, 255, 0.18), transparent 55%),
+                  radial-gradient(circle at 82% -12%, rgba(255, 176, 120, 0.12), transparent 60%),
+                  linear-gradient(180deg, #080b11 0%, #101622 45%, #0b1018 100%);
+    }
+
+    h1 {
+      margin: 0 0 40px;
+      text-align: center;
+      font-size: 30px;
+      letter-spacing: 0.12em;
+      font-weight: 600;
+    }
+
+    .canvas {
+      max-width: 1120px;
+      margin: 0 auto;
+      background: rgba(15, 20, 30, 0.93);
+      border-radius: 30px;
+      border: 1px solid rgba(160, 175, 240, 0.5);
+      padding: 56px 64px 64px;
+      box-shadow: 0 36px 78px rgba(5, 7, 12, 0.78);
+    }
+
+    .summary {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin-bottom: 36px;
+    }
+
+    .pill {
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: #9ed2ff;
+      background: rgba(120, 190, 255, 0.18);
+      border: 1px solid rgba(120, 190, 255, 0.35);
+    }
+
+    .columns {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      position: relative;
+      padding: 26px 24px 28px;
+      background: rgba(24, 30, 44, 0.96);
+      border-radius: 22px;
+      border: 1px solid rgba(175, 190, 255, 0.45);
+      box-shadow: 0 22px 50px rgba(5, 7, 12, 0.58);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      border: 1px solid rgba(175, 190, 255, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+      color: #e4ecff;
+      background: radial-gradient(circle at 30% 30%, rgba(110, 150, 255, 0.36), rgba(30, 36, 50, 0.95));
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: #f3f6ff;
+    }
+
+    .card ul {
+      margin: 0;
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card li {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #c5ccf2;
+    }
+
+    .flow {
+      margin-top: 38px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .flow span {
+      display: block;
+      padding: 12px 14px;
+      text-align: center;
+      border-radius: 14px;
+      background: rgba(24, 30, 44, 0.94);
+      border: 1px solid rgba(175, 190, 255, 0.42);
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      color: rgba(212, 220, 250, 0.92);
+    }
+
+    .legend {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .legend span {
+      display: block;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(22, 28, 40, 0.95);
+      border: 1px dashed rgba(175, 190, 255, 0.45);
+      font-size: 13px;
+      line-height: 1.65;
+      color: rgba(210, 220, 250, 0.92);
+    }
+  </style>
+</head>
+<body>
+  <h1>ArcPrize2025 Hybrid Solver Overview</h1>
+  <div class="canvas">
+    <div class="summary">
+      <span class="pill">DSL</span>
+      <span class="pill">Execution</span>
+      <span class="pill">Hybrid AI</span>
+    </div>
+    <div class="columns">
+      <section class="card">
+        <div class="card-icon">DSL</div>
+        <h2>DSL Layer</h2>
+        <ul>
+          <li>Tokenise program text and attach lexical IDs.</li>
+          <li>Build ASTs with an LL parser and emit validated command sequences.</li>
+          <li>Run specification and exception checks before execution.</li>
+        </ul>
+      </section>
+      <section class="card">
+        <div class="card-icon">CORE</div>
+        <h2>Execution Core</h2>
+        <ul>
+          <li>Manage grids and objects with unified manipulation logic.</li>
+          <li>Enforce safety constraints (loop limits, value ranges, object caps).</li>
+          <li>Offer step execution, snapshots, and structured logs for debugging.</li>
+        </ul>
+      </section>
+      <section class="card">
+        <div class="card-icon">HYB</div>
+        <h2>Hybrid System</h2>
+        <ul>
+          <li>Generate candidate DSL programs via program synthesis.</li>
+          <li>Score and integrate candidates using consistency metrics.</li>
+          <li>Improve accuracy with rule-based fallbacks and re-search loops.</li>
+        </ul>
+      </section>
+    </div>
+    <div class="flow">
+      <span>DSL Input</span>
+      <span>Execution Metrics</span>
+      <span>Integration &amp; Output</span>
+    </div>
+    <div class="legend">
+      <span>The DSL layer handles parsing and type checks, producing safe command sequences.</span>
+      <span>The execution core evaluates commands, records logs, and exposes state for learning/inference.</span>
+      <span>The hybrid layer analyses results and feeds insights back into future training cycles.</span>
+    </div>
+  </div>
+</body>
+</html>

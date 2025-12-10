@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Extended Dataset Generation Pipeline</title>
+  <style>
+    @font-face {
+      font-family: 'Noto Sans JP Local';
+      src: url('../fonts/NotoSansJP-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    :root {
+      font-family: 'Noto Sans JP Local', 'Source Han Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+      color: #eaf0ff;
+    }
+
+    body {
+      margin: 0;
+      padding: 72px 40px 90px;
+      background: radial-gradient(circle at 22% 18%, rgba(110, 140, 255, 0.16), transparent 55%),
+                  radial-gradient(circle at 78% -10%, rgba(255, 180, 120, 0.12), transparent 60%),
+                  linear-gradient(180deg, #080b11 0%, #101722 45%, #0b1018 100%);
+    }
+
+    h1 {
+      margin: 0 0 42px;
+      text-align: center;
+      font-size: 30px;
+      letter-spacing: 0.12em;
+      font-weight: 600;
+    }
+
+    .canvas {
+      max-width: 920px;
+      margin: 0 auto;
+      background: rgba(15, 20, 30, 0.92);
+      border-radius: 28px;
+      border: 1px solid rgba(160, 175, 240, 0.5);
+      padding: 54px 58px 60px;
+      box-shadow: 0 36px 80px rgba(5, 7, 12, 0.78);
+    }
+
+    .note {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: #9ed2ff;
+      background: rgba(120, 190, 255, 0.18);
+      border: 1px solid rgba(120, 190, 255, 0.35);
+      margin-bottom: 26px;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 22px;
+      align-items: start;
+      padding: 20px 24px;
+      background: rgba(25, 31, 45, 0.96);
+      border-radius: 20px;
+      border: 1px solid rgba(170, 185, 245, 0.52);
+      box-shadow: 0 24px 46px rgba(5, 7, 12, 0.55);
+    }
+
+    .step-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      border: 1px solid rgba(175, 190, 255, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 600;
+      color: #e2e9ff;
+      background: radial-gradient(circle at 30% 30%, rgba(110, 150, 255, 0.32), rgba(30, 36, 50, 0.98));
+    }
+
+    .step-body h2 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #f3f6ff;
+    }
+
+    .step-body p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.65;
+      color: #c5ccf2;
+    }
+
+    .illustration {
+      margin-top: 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(180, 195, 255, 0.35);
+      overflow: hidden;
+      background: rgba(18, 24, 34, 0.96);
+      box-shadow: inset 0 0 0 1px rgba(110, 140, 220, 0.2);
+    }
+
+    .illustration img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .illustration figcaption {
+      margin: 0;
+      padding: 6px 12px;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      color: rgba(208, 216, 245, 0.92);
+      border-top: 1px solid rgba(180, 195, 255, 0.35);
+    }
+
+    .mini-grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(6, 12px);
+      gap: 4px;
+    }
+
+    .mini-cell {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+    }
+
+    .mini-cell.blue { background: #2f89ff; }
+    .mini-cell.gray { background: #5a627c; }
+    .mini-cell.pink { background: #ff5fd6; }
+    .mini-cell.orange { background: #ff9932; }
+    .mini-cell.dark { background: #181d2c; }
+
+    .footer-note {
+      margin-top: 30px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      border: 1px dashed rgba(170, 185, 245, 0.4);
+      background: rgba(22, 28, 38, 0.95);
+      font-size: 13px;
+      line-height: 1.6;
+      color: rgba(210, 220, 250, 0.92);
+    }
+  </style>
+</head>
+<body>
+  <h1>Extended Dataset Generation Pipeline</h1>
+  <div class="canvas">
+    <div class="note">LOG &amp; VALIDATION 窶・write results to `logs/`</div>
+    <div class="steps">
+      <section class="step">
+        <div class="step-icon">01</div>
+        <div class="step-body">
+          <h2>Prepare Official Tasks</h2>
+          <p>Load ARC-AGI2 official tasks and solutions, then normalise metadata before generation.</p>
+        </div>
+      </section>
+      <section class="step">
+        <div class="step-icon">02</div>
+        <div class="step-body">
+          <h2>Generate DSL Programs</h2>
+          <p>The integrated generator samples difficulty, constraints, and templates to produce DSL scripts.</p>
+          <figure class="illustration">
+            <img src="../images/generate_program.png" alt="Example of a generated DSL program">
+            <figcaption>Example program emitted by the generator (Task 001)</figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="step">
+        <div class="step-icon">03</div>
+        <div class="step-body">
+          <h2>Create Input / Output Grids</h2>
+          <p>Expand templates into concrete grids, align outputs with the DSL program, and build a DataPair candidate.</p>
+          <figure class="illustration">
+            <img src="../images/generate_program_and_grid.png" alt="Generated input and output grid pair">
+            <figcaption>Grid pair derived from the generated program</figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="step">
+        <div class="step-icon">04</div>
+        <div class="step-body">
+          <h2>Quality Validation</h2>
+          <p>Check consistency, ranges, duplicates, and anomalies; send failed samples back to the regeneration queue.</p>
+          <div class="mini-grid">
+            <span class="mini-cell blue"></span>
+            <span class="mini-cell gray"></span>
+            <span class="mini-cell blue"></span>
+            <span class="mini-cell pink"></span>
+            <span class="mini-cell gray"></span>
+            <span class="mini-cell blue"></span>
+            <span class="mini-cell dark"></span>
+            <span class="mini-cell blue"></span>
+            <span class="mini-cell gray"></span>
+            <span class="mini-cell orange"></span>
+            <span class="mini-cell gray"></span>
+            <span class="mini-cell dark"></span>
+          </div>
+        </div>
+      </section>
+      <section class="step">
+        <div class="step-icon">05</div>
+        <div class="step-body">
+          <h2>Persist DataPairs</h2>
+          <p>Store validated DataPairs as `.jsonl.gz`, attaching validation logs and summary statistics.</p>
+        </div>
+      </section>
+      <section class="step">
+        <div class="step-icon">06</div>
+        <div class="step-body">
+          <h2>Feed Training &amp; Evaluation</h2>
+          <p>Push DataPairs into Phase 1 training and evaluation modules, feeding back metrics to the generator.</p>
+        </div>
+      </section>
+    </div>
+    <div class="footer-note">Each stage records logs and statistics for traceability. Failed tasks are classified and re-queued for regeneration before entering the official dataset.</div>
+  </div>
+</body>
+</html>
